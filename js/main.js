@@ -11,6 +11,63 @@
     };
     spinner();
     
+    // Audio Controls
+    const bgMusic = document.getElementById('bgMusic');
+    const audioControl = document.getElementById('audioControl');
+    const audioIcon = audioControl.querySelector('i');
+    let isPlaying = false;
+    
+    // Set default volume
+    bgMusic.volume = 0.5;
+    
+    // Play/Pause functionality
+    audioControl.addEventListener('click', function() {
+        if (isPlaying) {
+            bgMusic.pause();
+            audioIcon.classList.remove('fa-volume-up');
+            audioIcon.classList.add('fa-volume-mute');
+        } else {
+            bgMusic.play();
+            audioIcon.classList.remove('fa-volume-mute');
+            audioIcon.classList.add('fa-volume-up');
+        }
+        isPlaying = !isPlaying;
+    });
+    
+    // Dark/Light Mode Toggle
+    const modeToggle = document.getElementById('modeToggle');
+    const modeIcon = modeToggle.querySelector('i');
+    let isDarkMode = false;
+    
+    // Check for saved theme preference
+    if (localStorage.getItem('darkMode') === 'true') {
+        enableDarkMode();
+    }
+    
+    modeToggle.addEventListener('click', function() {
+        if (isDarkMode) {
+            disableDarkMode();
+        } else {
+            enableDarkMode();
+        }
+    });
+    
+    function enableDarkMode() {
+        document.body.classList.add('dark-mode');
+        modeIcon.classList.remove('fa-moon');
+        modeIcon.classList.add('fa-sun');
+        isDarkMode = true;
+        localStorage.setItem('darkMode', 'true');
+    }
+    
+    function disableDarkMode() {
+        document.body.classList.remove('dark-mode');
+        modeIcon.classList.remove('fa-sun');
+        modeIcon.classList.add('fa-moon');
+        isDarkMode = false;
+        localStorage.setItem('darkMode', 'false');
+    }
+    
     
     // Initiate the wowjs
     new WOW().init();

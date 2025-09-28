@@ -46,6 +46,25 @@
     </head>
 
     <body>
+        <!-- Audio Element -->
+        <audio id="bgMusic" loop>
+            <source src="rolex.mp3" type="audio/mpeg">
+            Your browser does not support the audio element.
+        </audio>
+
+        <!-- Controls Container -->
+        <div class="controls-container">
+            <!-- Dark/Light Mode Toggle -->
+            <div class="mode-toggle" id="modeToggle">
+                <i class="fas fa-moon"></i>
+            </div>
+            
+            <!-- Audio Control -->
+            <div class="audio-control" id="audioControl">
+                <i class="fas fa-volume-up"></i>
+            </div>
+        </div>
+
         <!-- Spinner Start -->
         <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
             <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
