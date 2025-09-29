@@ -1,51 +1,102 @@
-// ...existing code...
-
-// Firebase App (the core Firebase SDK) is always required and must be listed first
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
-import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
-
-// Your web app's Firebase configuration
-const firebaseConfig = {
-  apiKey: "AIzaSyDa2z7yV-PxazTqgIceseqpQER40Y8razs",
-  authDomain: "portfolio-65f55.firebaseapp.com",
-  projectId: "portfolio-65f55",
-  storageBucket: "portfolio-65f55.firebasestorage.app",
-  messagingSenderId: "216970086067",
-  appId: "1:216970086067:web:b1c5fe8d3da36d5d0f12c6",
-  measurementId: "G-TY414VV06Q"
-};
-
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
-
+// Contact form functionality
 function sendMail() {
-    let parms = {
+    console.log("sendMail function called");
+    
+    let params = {
         name: document.getElementById("name").value,
         email: document.getElementById("email").value,
         subject: document.getElementById("subject").value,
         message: document.getElementById("message").value,
+        to_email: "personalaccdinesh@gmail.com",
+        from_name: document.getElementById("name").value,
+        reply_to: document.getElementById("email").value
     };
 
-    // Save to Firestore
-    addDoc(collection(db, "contacts"), parms)
-        .then(() => {
-            console.log("Contact saved to Firestore");
-        })
-        .catch((error) => {
-            console.error("Error saving contact to Firestore: ", error);
-        });
+    console.log("Form data collected:", params);
 
-    emailjs.send("service_q2f7v93", "template_o9bjqa6", parms)
+    if (!params.name || !params.email || !params.subject || !params.message) {
+        alert("Please fill all the fields");
+        return false;
+    }
+
+    // Check if EmailJS is loaded
+    if (typeof emailjs === 'undefined') {
+        alert("EmailJS is not loaded. Please refresh the page and try again.");
+        return false;
+    }
+    
+    // Ensure EmailJS is properly initialized with public key from config
+    const publicKey = window.EmailConfig ? window.EmailConfig.publicKey : "uMeI1Zm32tX8SM2l5";
+    const serviceId = window.EmailConfig ? window.EmailConfig.serviceId : "service_jl6rfwn";
+    const templateId = window.EmailConfig ? window.EmailConfig.templateId : "template_e4ygfmr";
+    
+    try {
+        console.log("Initializing EmailJS with public key from config:", publicKey);
+        emailjs.init(publicKey);
+        console.log("EmailJS initialized successfully");
+    } catch (initError) {
+        console.error("Failed to initialize EmailJS:", initError);
+        alert("Email service initialization failed. Please try again.");
+        return false;
+    }
+    
+    console.log("Using EmailJS Service ID:", serviceId);
+    console.log("Using EmailJS Template ID:", templateId);
+    
+    // Show sending status
+    const submitBtn = document.getElementById("submit-btn");
+    if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = "Sending...";
+    }
+    
+    emailjs.send(serviceId, templateId, params)
         .then(function (response) {
-            alert("Email Sent Successfully!");
             console.log("SUCCESS!", response.status, response.text);
+            
+            if (typeof window.displayFormStatus === 'function') {
+                window.displayFormStatus("Your message has been sent successfully!");
+            } else {
+                alert("Email Sent Successfully!");
+            }
+            
+            document.getElementById("name").value = "";
+            document.getElementById("email").value = "";
+            document.getElementById("subject").value = "";
+            document.getElementById("message").value = "";
+            
+            if (submitBtn) {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = "Send Message";
+            }
         })
         .catch(function (error) {
-            alert("Failed to send email. Please try again.");
-            console.error("FAILED...", error);
+            console.error("FAILED TO SEND EMAIL:", error);
+            
+            let errorMessage = "Failed to send email: ";
+            if (error.text) {
+                errorMessage += error.text;
+            } else if (error.message) {
+                errorMessage += error.message;
+            } else {
+                errorMessage += "Unknown error. Please try again.";
+            }
+            
+            if (typeof window.displayFormStatus === 'function') {
+                window.displayFormStatus(errorMessage, true);
+            } else {
+                alert(errorMessage);
+            }
+            
+            if (submitBtn) {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = "Send Message";
+            }
         });
 
-    return false; // Prevents page refresh
+    console.log("Returning false to prevent form submission");
+    return false;
 }
-// ...existing code...
+
+window.sendMail = sendMail;
+console.log("EmailJS contact script loaded successfully");

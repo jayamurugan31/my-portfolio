@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <met#aeb3b8et="utf-8">
+        <meta charset="utf-8">
         <title>Jayamurugan's portfolio</title>
         <meta content="width=device-width, initial-scale=1.0" name="viewport">
         <meta content="Free Website Template" name="keywords">
         <meta content="Free Website Template" name="description">
-        <link rel="icon" type="image/png" href="img/glaze logo (3).png">
+        <link rel="icon" type="image/png" href="img/jaga.png">
 
         
 
@@ -33,19 +33,31 @@
         <!-- Template Stylesheet -->
         <link href="css/style.css" rel="stylesheet">
 
-        <script type="text/javascript"
-        src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js">
-        </script>
-        <script type="text/javascript">
-        (function(){
-        emailjs.init({
-        publicKey: "GI7TWVJJUm5Vj1Fa1",
-        });
-        })();
-</script>
+        <!-- EmailJS Setup -->
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+        <script src="js/email-config.js"></script>
     </head>
 
     <body>
+        <!-- Audio Element -->
+        <audio id="bgMusic" loop preload="auto">
+            <source src="rolex.mp3" type="audio/mpeg">
+            Your browser does not support the audio element.
+        </audio>
+        
+        <!-- Controls Container -->
+        <div class="controls-container">
+            <!-- Dark/Light Mode Toggle -->
+            <div class="mode-toggle" id="modeToggle">
+                <i class="fas fa-moon"></i>
+            </div>
+            
+            <!-- Audio Control -->
+            <div class="audio-control" id="audioControl">
+                <i class="fas fa-volume-up"></i>
+            </div>
+        </div>
+
         <!-- Spinner Start -->
         <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
             <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
@@ -595,35 +607,36 @@
                     <!-- Contact Start -->
                     <section class="py-5 wow fadeInUp" data-wow-delay="0.1s" id="contact">
                         <h1 class="title pb-3 mb-5">Contact Me</h1>
-						<p class="mb-4">Feel free to contact me anytime if you need any services.</a></p>
-                        <form>
+						<p class="mb-4">Feel free to contact me anytime if you need any services.</p>
+                        <div id="contact-form-status" class="mb-3" style="display: none;"></div>
+                        <form id="contactForm" onsubmit="return sendMail();">
                             <div class="row g-3">
                                 <div class="col-md-6">
                                     <div class="form-floating">
-                                        <input type="text" class="form-control border-0 bg-secondary" id="name" placeholder="Your Name">
+                                        <input type="text" class="form-control border-0 bg-secondary" id="name" placeholder="Your Name" required>
                                         <label for="name">Your Name</label>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-floating">
-                                        <input type="email" class="form-control border-0 bg-secondary" id="email" placeholder="Your Email">
+                                        <input type="email" class="form-control border-0 bg-secondary" id="email" placeholder="Your Email" required>
                                         <label for="email">Your Email</label>
                                     </div>
                                 </div>
                                 <div class="col-12">
                                     <div class="form-floating">
-                                        <input type="text" class="form-control border-0 bg-secondary" id="subject" placeholder="Subject">
+                                        <input type="text" class="form-control border-0 bg-secondary" id="subject" placeholder="Subject" required>
                                         <label for="subject">Subject</label>
                                     </div>
                                 </div>
                                 <div class="col-12">
                                     <div class="form-floating">
-                                        <textarea class="form-control border-0 bg-secondary" placeholder="Leave a message here" id="message" style="height: 200px"></textarea>
+                                        <textarea class="form-control border-0 bg-secondary" placeholder="Leave a message here" id="message" style="height: 200px" required></textarea>
                                         <label for="message">Message</label>
                                     </div>
                                 </div>
                                 <div class="col-12">
-                                    <button class="btn btn-primary w-100 py-3" type="submit"onclick="sendMail()">Send Message</button>
+                                    <button id="submit-btn" class="btn btn-primary w-100 py-3" type="submit">Send Message</button>
                                 </div>
                             </div>
                         </form>
@@ -677,5 +690,8 @@
 
         <!-- Template Javascript -->
         <script src="js/main.js"></script>
+        
+        <!-- EmailJS Debug Helper -->
+        <script src="js/email-debug.js"></script>
     </body>
 </html>
