@@ -7,7 +7,7 @@ function sendMail() {
         email: document.getElementById("email").value,
         subject: document.getElementById("subject").value,
         message: document.getElementById("message").value,
-        to_email: "personalaccdinesh@gmail.com",
+        to_email: "jayamuruganv28@gmail.com",
         from_name: document.getElementById("name").value,
         reply_to: document.getElementById("email").value
     };
