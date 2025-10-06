@@ -26,9 +26,9 @@ function sendMail() {
     }
     
     // Ensure EmailJS is properly initialized with public key from config
-    const publicKey = window.EmailConfig ? window.EmailConfig.publicKey : "GI7TWVJJUm5Vj1Fa1";
-    const serviceId = window.EmailConfig ? window.EmailConfig.serviceId : "service_q2f7v93";
-    const templateId = window.EmailConfig ? window.EmailConfig.templateId : "template_na8uai7";
+    const publicKey =  window.EmailConfig.publicKey : "GI7TWVJJUm5Vj1Fa1";
+    const serviceId =  window.EmailConfig.serviceId : "service_q2f7v93";
+    const templateId = window.EmailConfig.templateId : "template_na8uai7";
     
     try {
         console.log("Initializing EmailJS with public key from config:", publicKey);
