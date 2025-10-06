@@ -209,4 +209,25 @@
         return false;
     });
 
+    // Skills progress bar animation
+    var skillsAnimated = false;
+    $(window).scroll(function () {
+        if (!skillsAnimated) {
+            var skillsSection = $('#skills');
+            if (skillsSection.length > 0) {
+                var sectionTop = skillsSection.offset().top;
+                var sectionHeight = skillsSection.outerHeight();
+                var windowTop = $(window).scrollTop();
+                var windowHeight = $(window).height();
+                if (windowTop + windowHeight > sectionTop + sectionHeight / 2) {
+                    $('.progress-bar').each(function() {
+                        var value = $(this).attr('aria-valuenow');
+                        $(this).css('width', value + '%');
+                    });
+                    skillsAnimated = true;
+                }
+            }
+        }
+    });
+
 })(jQuery);
